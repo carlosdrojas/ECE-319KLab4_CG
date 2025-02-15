@@ -148,7 +148,7 @@ int main5(void){// main5
 // initialize your FSM
   SysTick_Init();   // Initialize SysTick for software waits
   // initialize your FSM
-  Lab4Grader(1); // activate UART, grader and interrupts
+  Lab4Grader(0); // activate UART, grader and interrupts
   while(1){
       // 1) output depending on state using Traffic_Out
       // call your Debug_Dump logging your state number and output
