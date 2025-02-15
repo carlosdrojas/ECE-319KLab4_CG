@@ -1,0 +1,56 @@
+# General OS Files
+.DS_Store
+Thumbs.db
+*.Spotlight-V100
+*.Trashes
+Desktop.ini
+Icon?
+._*
+
+# General IDE and Editor Files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Code Composer Studio (CCS) and Build Artifacts
+Debug/
+Release/
+*/Debug/
+*/Release/
+*.mk
+*.opt
+*.map
+*.o
+*.d
+*.obj
+*.pp
+*.lst
+*.out
+*.bin
+*.elf
+*.hex
+*.ini
+*.cmd
+*.log
+*.cache
+build/
+
+# Clang and Compilation Cache
+.clangd/
+compile_commands.json
+
+# Logs and Temporary Files
+*.log
+*.tmp
+
+# TI Toolchain-Specific Directories
+*/ticlang/
+
+# Platform-Specific Executables
+*.exe   
+# Windows executables
+*.dSYM/ 
+# macOS debug symbols

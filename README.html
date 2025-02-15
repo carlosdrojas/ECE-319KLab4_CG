@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:w="urn:schemas-microsoft-com:office:word"
+ xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+ xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+ xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1252">
+  <meta name="ProgId" content="Word.Document">
+  <meta name="Generator" content="Microsoft Word 14">
+  <meta name="Originator" content="Microsoft Word 14">
+  <base target="_parent">
+  <link rel="Edit-Time-Data" href="index_files/editdata.mso">
+  <title>ECE319K_Lab4</title>
+  <o:smarttagtype
+ namespaceuri="urn:schemas-microsoft-com:office:smarttags" name="place"></o:smarttagtype><o:smarttagtype
+ namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="PlaceName"></o:smarttagtype>
+  <o:smarttagtype
+ namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="PlaceType"></o:smarttagtype>
+  <link rel="themeData" href="index_files/themedata.thmx">
+  <link rel="colorSchemeMapping"
+ href="index_files/colorschememapping.xml">
+  <style>
+  </style>
+</head>
+<body style="background-color: white;" alink="#0000ff" lang="EN-US"
+ link="blue" vlink="#c40026">
+<div class="WordSection1">
+<p style="text-align: center;" align="center"><span
+ style="font-size: 18pt;">ECE319K_Lab4</span><br>
+<table class="MsoNormalTable"
+ style="border: 3pt outset ; background: rgb(255, 204, 153) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; width: 100%;"
+ border="1" cellpadding="0" width="100%">
+<tr>
+<td>
+<p><b><span style="font-size: 18pt;">Readme</b></span>
+            <br> &nbsp;<br>
+This is the starter project for ECE319K Lab 4. 
+For more information about Lab 4, see 
+<a href="https://docs.google.com/document/d/1yoxg4W9qrziwlOyySFFkZedpKebpfaek39ePyLrR09k/" target ="_blank">
+Lab 4. Traffic Light</a>.
+When running this project, the USB cable must be attached
+to the PC and a terminal program (Putty or CCS terminal) must be
+opened with a baud rate of 115200 bits/sec.  <br>&nbsp;<br>
+
+</td>
+
+</tr>
+</table>
+ </p>
+ 
+ <table class="MsoNormalTable"
+ style="border: 3pt outset ; background: rgb(252, 243, 144) none repeat scroll 0% 50%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; width: 100%;"
+ border="1" cellpadding="0" width="100%">
+        <tbody>
+          <tr>
+            <td>
+<p><b><span style="font-size: 18pt;">Hardware Required</b></span>
+<br>
+<ul>
+<li>MSPM0G3507 LaunchPad&trade; Development Kit (LP-MSPM0G3507)</li>
+<li>Three B3F switches <a href="http://users.ece.utexas.edu/~valvano/Datasheets/B3F-1059.pdf" target ="_blank">Datasheet</a></li>
+<li>Six HLMP-4700 LEDs <a href="http://users.ece.utexas.edu/~valvano/Datasheets/LEDHLMP-4700.pdf" target ="_blank">Datasheet</a></li>
+<li>Three 10k and six 470ohm resistors</li>
+</ul>
+<p class="PictureWide"><span lang="en-US"><img src="traffic.jpg" width="500" 
+    ></span></p>
+<b><span style="font-size: 18pt;">Pin assignments</b></span>
+<br>
+<ul>
+<li>Add your EID and run the code to see to which pins you should connect the switch and LED</li>
+<li>Serial TxD: PA10 is UART0 Tx (MSPM0 to PC) index 20 in IOMUX PINCM table</li>
+<li>Serial RxD: PA11 is UART0 Rx (PC to MSPM0) index 21 in IOMUX PINCM table</li>
+</ul>
+<b><span style="font-size: 18pt;">LaunchPad Jumpers</b></span>
+<br>
+<ul>
+<li>Remove J16 J17 J18: Disconnects light sensor from the microcontroller PA22 PA27 PA26</li> 
+<li>J21: Connects PA10 to XDS_UART</li>
+<li>J22: Connects PA11 to XDS_UART</li>
+</ul>
+</p> </td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
+<p>
+Simplified BSD License (FreeBSD License)
+Copyright &copy; 2025, Jonathan Valvano, All rights reserved.<br>
+&nbsp;<br> 
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:<br>
+<ol>
+<li>Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.</li></ol>
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
+&nbsp;<br> 
+The views and conclusions contained in the software and documentation are
+those of the authors and should not be interpreted as representing official
+policies, either expressed or implied, of the FreeBSD Project.
+<br> &nbsp;
+</p>
+<p>For more information, see <a href="http://users.ece.utexas.edu/~valvano/">
+http://users.ece.utexas.edu/~valvano/</a>.
+</p>
+</div>
+</body>
+</html>
