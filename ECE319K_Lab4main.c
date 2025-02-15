@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 // put both EIDs in the next two lines
-const char EID1[] = "abc123"; //  ;replace abc123 with your EID
+const char EID1[] = "CDR3585"; //  ;replace abc123 with your EID
 const char EID2[] = "abc123"; //  ;replace abc123 with your EID
 // Hint implement Traffic_Out before creating the struct, make struct match your Traffic_Out
 
