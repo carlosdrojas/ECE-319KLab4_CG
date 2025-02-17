@@ -21,8 +21,50 @@ const char EID2[] = "GOO287"; //  ;replace abc123 with your EID
 // initialize all 6 LED outputs and 3 switch inputs
 // assumes LaunchPad_Init resets and powers A and B
 void Traffic_Init(void){ // assumes LaunchPad_Init resets and powers A and B
- // write this 
+  // write this
+ 
+  // South outputs
+  // RED - PB2
+  IOMUX->SECCFG.PINCM[PB2INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x04; // PB2 output;
+  // YELLOW - PB1
+  IOMUX->SECCFG.PINCM[PB1INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x02; // PB1 output;
+  // GREEN - PB
+  IOMUX->SECCFG.PINCM[PB3INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x08; // PB3 output;
+
+  // West outputs
+  // RED - PB8
+  IOMUX->SECCFG.PINCM[PB8INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x100; // PB8 output;
+  // YELLOW - PB7
+  IOMUX->SECCFG.PINCM[PB7INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x80; // PB7 output;
+  // GREEN - PB6
+  IOMUX->SECCFG.PINCM[PB6INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x40; // PB6 output;
+
+  // Walk outputs (set all high for white)
+  // RED - PB26
+  IOMUX->SECCFG.PINCM[PB26INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x4000000; // PB26 output;
+  // GREEN - PB27
+  IOMUX->SECCFG.PINCM[PB27INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x8000000; // PB27 output;
+  // BLUE - PB22
+  IOMUX->SECCFG.PINCM[PB22INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x400000; // PB22 output;
   
+
+  // Inputs
+  // West sensor - PB15
+  IOMUX->SECCFG.PINCM[PB15INDEX] = 0x40081;
+  // Souch sensor - PB16
+  IOMUX->SECCFG.PINCM[PB16INDEX] = 0x40081;
+  // Walk sensor - PB17
+  IOMUX->SECCFG.PINCM[PB17INDEX] = 0x40081;
+
 }
 /* Activate LEDs
 * Inputs: west is 3-bit value to three east/west LEDs
