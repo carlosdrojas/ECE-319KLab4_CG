@@ -53,6 +53,8 @@ const state_t FSM[12] = {
   {67108996, 1000, {redW, redW, redW, redW, redW, redW, redW, redW}}, // waitW / [9]
   {67109124, 2000, {goS, goS, goW, goS, goWalk, goS, goWalk, goS}}; // redW / [10]
 };
+
+uint8_t CS = goS;
 // initialize all 6 LED outputs and 3 switch inputs
 // assumes LaunchPad_Init resets and powers A and B
 void Traffic_Init(void){ // assumes LaunchPad_Init resets and powers A and B
@@ -118,10 +120,16 @@ void Traffic_Init(void){ // assumes LaunchPad_Init resets and powers A and B
 * - walk bit 26 sets red color
 * - walk bit 27 sets green color
 * Feel free to change this. But, if you change the way it works, change the test programs too
-* Be friendly*/
+* Be friendly
 void Traffic_Out(uint32_t west, uint32_t south, uint32_t walk){
-  
+
 }
+*/
+
+void Traffic_Out(uint32_t out){
+  GPIOB->DOUT31_0 = (GPIOB->DOUT31_0 & (~0xC4001C7) | out)
+}
+
 /* Read sensors
  * Input: none
  * Output: sensor values
@@ -131,7 +139,7 @@ void Traffic_Out(uint32_t west, uint32_t south, uint32_t walk){
 * Feel free to change this. But, if you change the way it works, change the test programs too
  */
 uint32_t Traffic_In(void){
-    return 0; // write this
+    return (GPIOB->DIN31_0 & 0x38000) >> 16; // write this
 }
 // use main1 to determine Lab4 assignment
 void Lab4Grader(int mode);
@@ -229,10 +237,14 @@ int main5(void){// main5
   Lab4Grader(0); // activate UART, grader and interrupts
   while(1){
       // 1) output depending on state using Traffic_Out
+      Traffic_Out(FSM[CS].output);
       // call your Debug_Dump logging your state number and output
       // 2) wait depending on state
+      SysTick_Wait10ms(FSM[CS].delay);
       // 3) input from switches
+      uint32_t input = Traffic_In()
       // 4) next depends on state and input
+      CS = FSM[CS].Next[input];
   }
 }
 
