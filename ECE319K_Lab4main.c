@@ -14,8 +14,8 @@
 #include <stdio.h>
 #include <string.h>
 // put both EIDs in the next two lines
-const char EID1[] = "CDR3585"; //  ;replace abc123 with your EID
-const char EID2[] = "GOO287"; //  ;replace abc123 with your EID
+const char EID1[] = "CDR3585"; //  ;replace abc123 with your EID carlos
+const char EID2[] = "GOO287"; //  ;replace abc123 with your EID grant
 // Hint implement Traffic_Out before creating the struct, make struct match your Traffic_Out
 
 // initialize all 6 LED outputs and 3 switch inputs
@@ -60,12 +60,13 @@ void Traffic_Init(void){ // assumes LaunchPad_Init resets and powers A and B
   // Inputs
   // West sensor - PB15
   IOMUX->SECCFG.PINCM[PB15INDEX] = 0x40081;
-  // Souch sensor - PB16
+  // South sensor - PB16
   IOMUX->SECCFG.PINCM[PB16INDEX] = 0x40081;
   // Walk sensor - PB17
   IOMUX->SECCFG.PINCM[PB17INDEX] = 0x40081;
 
 }
+
 /* Activate LEDs
 * Inputs: west is 3-bit value to three east/west LEDs
 *         south is 3-bit value to three north/south LEDs
