@@ -13,11 +13,46 @@
 #include "../inc/Dump.h"  // student's Lab 3
 #include <stdio.h>
 #include <string.h>
+
+#define goS 0
+#define waitS 1
+#define redS 2
+#define goWalk 3
+#define redOn1 4
+#define redOff1 5
+#define redOn2 6
+#define redOff2 7
+#define redWalk 8
+#define goW 9
+#define waitW 10
+#define redW 11
 // put both EIDs in the next two lines
 const char EID1[] = "CDR3585"; //  ;replace abc123 with your EID carlos
 const char EID2[] = "GOO287"; //  ;replace abc123 with your EID grant
 // Hint implement Traffic_Out before creating the struct, make struct match your Traffic_Out
 
+struct state {
+  uint32_t output;
+  uint32_t delay;
+  uint8_t Next[8]
+};
+
+typedef struct state state_t;
+
+const state_t FSM[12] = {
+  {67109121, 3000, {goS, goS, waitS, waitS, waitS, waitS, waitS, waitS}}, // goS / [0]
+  {67109122, 1000, {redS, redS, redS, redS, redS, redS, redS, redS}}, // waitS / [1]
+  {67109124, 2000, {goS, goS, goW, goW, goWalk, goWalk, goWalk, goWalk}}, // redS / [2]
+  {205521156, 3000, {redOn1, redOn1, redOn1, redOn1, redOn1, redOn1, redOn1, redOn1}}, // goWalk / [3]
+  {67109124, 2000, {redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1}}, // redOn1 / [4]
+  {260, 2000, {redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2}}, // redOff1 / [5]
+  {67109124, 2000, {redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2}}, // redOn2 / [5]
+  {260, 2000, {redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk}}, // redOff2 / [6]
+  {67109124, 2000, {goS, goS, goW, goW, goWalk, goS, goW, goW}}, // redWalk / [7]
+  {67108932, 3000, {waitW, waitW, goW, waitW, waitW, waitW, waitW, waitW}}, // goW / [8]
+  {67108996, 1000, {redW, redW, redW, redW, redW, redW, redW, redW}}, // waitW / [9]
+  {67109124, 2000, {goS, goS, goW, goS, goWalk, goS, goWalk, goS}}; // redW / [10]
+};
 // initialize all 6 LED outputs and 3 switch inputs
 // assumes LaunchPad_Init resets and powers A and B
 void Traffic_Init(void){ // assumes LaunchPad_Init resets and powers A and B
