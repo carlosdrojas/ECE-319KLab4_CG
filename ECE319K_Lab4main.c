@@ -34,27 +34,33 @@ const char EID2[] = "GOO287"; //  ;replace abc123 with your EID grant
 struct state {
   uint32_t output;
   uint32_t delay;
-  uint8_t Next[8]
+  uint8_t Next[8];
 };
 
 typedef struct state state_t;
 
+const uint16_t g = 100;
+const uint16_t r = 75;
+const uint16_t y = 50;
+
 const state_t FSM[12] = {
-  {67109121, 3000, {goS, goS, waitS, waitS, waitS, waitS, waitS, waitS}}, // goS / [0]
-  {67109122, 1000, {redS, redS, redS, redS, redS, redS, redS, redS}}, // waitS / [1]
-  {67109124, 2000, {goS, goS, goW, goW, goWalk, goWalk, goWalk, goWalk}}, // redS / [2]
-  {205521156, 3000, {redOn1, redOn1, redOn1, redOn1, redOn1, redOn1, redOn1, redOn1}}, // goWalk / [3]
-  {67109124, 2000, {redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1}}, // redOn1 / [4]
-  {260, 2000, {redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2}}, // redOff1 / [5]
-  {67109124, 2000, {redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2}}, // redOn2 / [5]
-  {260, 2000, {redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk}}, // redOff2 / [6]
-  {67109124, 2000, {goS, goS, goW, goW, goWalk, goS, goW, goW}}, // redWalk / [7]
-  {67108932, 3000, {waitW, waitW, goW, waitW, waitW, waitW, waitW, waitW}}, // goW / [8]
-  {67108996, 1000, {redW, redW, redW, redW, redW, redW, redW, redW}}, // waitW / [9]
-  {67109124, 2000, {goS, goS, goW, goS, goWalk, goS, goWalk, goS}}; // redW / [10]
+  //{67109121, 3000, {goS, goS, waitS, waitS, waitS, waitS, waitS, waitS}}, // goS / [0]
+  {0x4000101, 300, {goS, goS, waitS, waitS, waitS, waitS, waitS, waitS}}, // goS / [0]
+  {67109122, y, {redS, redS, redS, redS, redS, redS, redS, redS}}, // waitS / [1]
+  {67109124, r, {goS, goS, goW, goW, goWalk, goWalk, goWalk, goWalk}}, // redS / [2]
+  {205521156, g, {redOn1, redOn1, redOn1, redOn1, goWalk, redOn1, redOn1, redOn1}}, // goWalk / [3]
+  {67109124, y/2, {redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1}}, // redOn1 / [4]
+  {260, y/2, {redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2}}, // redOff1 / [5]
+  {67109124, y/2, {redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2}}, // redOn2 / [5]
+  {260, y/2, {redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk}}, // redOff2 / [6]
+  {67109124, r, {goS, goS, goW, goW, goWalk, goS, goW, goW}}, // redWalk / [7]
+  {67108932, g, {waitW, waitW, goW, waitW, waitW, waitW, waitW, waitW}}, // goW / [8]
+  {67108996, y, {redW, redW, redW, redW, redW, redW, redW, redW}}, // waitW / [9]
+  {67109124, r, {goS, goS, goW, goS, goWalk, goS, goWalk, goS}} // redW / [10]
 };
 
 uint8_t CS = goS;
+
 // initialize all 6 LED outputs and 3 switch inputs
 // assumes LaunchPad_Init resets and powers A and B
 void Traffic_Init(void){ // assumes LaunchPad_Init resets and powers A and B
@@ -68,8 +74,8 @@ void Traffic_Init(void){ // assumes LaunchPad_Init resets and powers A and B
   IOMUX->SECCFG.PINCM[PB1INDEX] = 0x81;
   GPIOB->DOE31_0 |= 0x02; // PB1 output;
   // GREEN - PB
-  IOMUX->SECCFG.PINCM[PB3INDEX] = 0x81;
-  GPIOB->DOE31_0 |= 0x08; // PB3 output;
+  IOMUX->SECCFG.PINCM[PB0INDEX] = 0x81;
+  GPIOB->DOE31_0 |= 0x01; // PB3 output;
 
   // West outputs
   // RED - PB8
@@ -127,7 +133,8 @@ void Traffic_Out(uint32_t west, uint32_t south, uint32_t walk){
 */
 
 void Traffic_Out(uint32_t out){
-  GPIOB->DOUT31_0 = (GPIOB->DOUT31_0 & (~0xC4001C7) | out)
+  GPIOB->DOUT31_0 = (GPIOB->DOUT31_0 & (~0xC4001C7) | out);
+  DumpLab4();
 }
 
 /* Read sensors
@@ -139,12 +146,12 @@ void Traffic_Out(uint32_t out){
 * Feel free to change this. But, if you change the way it works, change the test programs too
  */
 uint32_t Traffic_In(void){
-    return (GPIOB->DIN31_0 & 0x38000) >> 16; // write this
+    return (GPIOB->DIN31_0 & 0x38000) >> 15; // write this
 }
 // use main1 to determine Lab4 assignment
 void Lab4Grader(int mode);
 void Grader_Init(void);
-int main(void){ // main1
+int main1(void){ // main1
   Clock_Init80MHz(0);
   LaunchPad_Init();
   Lab4Grader(0); // print assignment, no grading
@@ -172,6 +179,32 @@ int main2(void){ // main2
     if((GPIOB->DOUT31_0&0x20) == 0){
       UART_OutString("DOUT not friendly\n\r");
     }
+    Traffic_Out(); // West Red
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // West Yellow
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // West Green
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // South Red
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // South Yellow
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // South Green
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // Walk White
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // Walk Red
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // West Red
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // West Red
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // West Yellow
+    SysTick_Wait10ms(r);
+    Traffic_Out(); // West Green
+
+
+
   }
 }
 // use main3 to debug the three input switches
@@ -225,7 +258,7 @@ uint32_t input;
   }
 }
 // use main5 to grade
-int main5(void){// main5
+int main(void){// main5
   Clock_Init80MHz(0);
   LaunchPad_Init();
   Grader_Init(); // execute this line before your code
@@ -242,7 +275,7 @@ int main5(void){// main5
       // 2) wait depending on state
       SysTick_Wait10ms(FSM[CS].delay);
       // 3) input from switches
-      uint32_t input = Traffic_In()
+      uint32_t input = Traffic_In();
       // 4) next depends on state and input
       CS = FSM[CS].Next[input];
   }
