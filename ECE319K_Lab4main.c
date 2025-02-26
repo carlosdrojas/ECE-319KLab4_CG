@@ -44,19 +44,18 @@ const uint16_t r = 75;
 const uint16_t y = 50;
 
 const state_t FSM[12] = {
-  //{67109121, 3000, {goS, goS, waitS, waitS, waitS, waitS, waitS, waitS}}, // goS / [0]
-  {0x4000101, 300, {goS, goS, waitS, waitS, waitS, waitS, waitS, waitS}}, // goS / [0]
-  {67109122, y, {redS, redS, redS, redS, redS, redS, redS, redS}}, // waitS / [1]
-  {67109124, r, {goS, goS, goW, goW, goWalk, goWalk, goWalk, goWalk}}, // redS / [2]
-  {205521156, g, {redOn1, redOn1, redOn1, redOn1, goWalk, redOn1, redOn1, redOn1}}, // goWalk / [3]
+  {0x4000101, g, {goS, goS, waitS, waitS, waitS, waitS, waitS, waitS}},                       // goS / [0]
+  {67109122, y, {redS, redS, redS, redS, redS, redS, redS, redS}},                            // waitS / [1]
+  {67109124, r, {goS, goS, goW, goW, goWalk, goWalk, goWalk, goWalk}},                        // redS / [2]
+  {205521156, g, {redOn1, redOn1, redOn1, redOn1, goWalk, redOn1, redOn1, redOn1}},           // goWalk / [3]
   {67109124, y/2, {redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1, redOff1}}, // redOn1 / [4]
-  {260, y/2, {redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2}}, // redOff1 / [5]
+  {260, y/2, {redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2, redOn2}},               // redOff1 / [5]
   {67109124, y/2, {redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2, redOff2}}, // redOn2 / [5]
-  {260, y/2, {redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk}}, // redOff2 / [6]
-  {67109124, r, {goS, goS, goW, goW, goWalk, goS, goW, goW}}, // redWalk / [7]
-  {67108932, g, {waitW, waitW, goW, waitW, waitW, waitW, waitW, waitW}}, // goW / [8]
-  {67108996, y, {redW, redW, redW, redW, redW, redW, redW, redW}}, // waitW / [9]
-  {67109124, r, {goS, goS, goW, goS, goWalk, goS, goWalk, goS}} // redW / [10]
+  {260, y/2, {redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk, redWalk}},      // redOff2 / [6]
+  {67109124, r, {goS, goS, goW, goW, goWalk, goS, goW, goW}},                                // redWalk / [7]
+  {67108932, g, {waitW, waitW, goW, waitW, waitW, waitW, waitW, waitW}},                    // goW / [8]
+  {67108996, y, {redW, redW, redW, redW, redW, redW, redW, redW}},                          // waitW / [9]
+  {67109124, r, {goS, goS, goW, goS, goWalk, goS, goWalk, goS}}                             // redW / [10]
 };
 
 uint8_t CS = goS;
@@ -134,7 +133,7 @@ void Traffic_Out(uint32_t west, uint32_t south, uint32_t walk){
 
 void Traffic_Out(uint32_t out){
   GPIOB->DOUT31_0 = (GPIOB->DOUT31_0 & (~0xC4001C7) | out);
-  DumpLab4();
+  //DumpLab4();
 }
 
 /* Read sensors
@@ -161,11 +160,12 @@ int main1(void){ // main1
 // use main2 to debug LED outputs
 // at this point in ECE319K you need to be writing your own test functions
 // modify this program so it tests your Traffic_Out  function
-int main2(void){ // main2
+int main(void){ // main2
   Clock_Init80MHz(0);
   LaunchPad_Init();
   Grader_Init(); // execute this line before your code
   LaunchPad_LED1off();
+  SysTick_Init();   // Initialize SysTick for software waits
   Traffic_Init(); // your Lab 4 initialization
   if((GPIOB->DOE31_0 & 0x20)==0){
     UART_OutString("access to GPIOB->DOE31_0 should be friendly.\n\r");
@@ -179,31 +179,27 @@ int main2(void){ // main2
     if((GPIOB->DOUT31_0&0x20) == 0){
       UART_OutString("DOUT not friendly\n\r");
     }
-    Traffic_Out(); // West Red
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // West Yellow
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // West Green
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // South Red
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // South Yellow
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // South Green
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // Walk White
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // Walk Red
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // West Red
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // West Red
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // West Yellow
-    SysTick_Wait10ms(r);
-    Traffic_Out(); // West Green
-
-
+    Traffic_Out(0x100); // West Red
+    SysTick_Wait10ms(10);
+    Traffic_Out(0x80); // West Yellow
+    SysTick_Wait10ms(10);
+    Traffic_Out(0x40); // West Green
+    SysTick_Wait10ms(10);
+    Traffic_Out(0x4); // South Red
+    SysTick_Wait10ms(10);
+    Traffic_Out(0x2); // South Yellow
+    SysTick_Wait10ms(10);
+    Traffic_Out(0x1); // South Green
+    SysTick_Wait10ms(10);
+    Traffic_Out(0xC400000); // Walk White
+    SysTick_Wait10ms(10);
+    Traffic_Out(0x4000000); // Walk Red
+    SysTick_Wait10ms(10);
+    // Traffic_Out(0x100); // West Red
+    // SysTick_Wait10ms(10);
+    // Traffic_Out(0x80); // West Yellow
+    // SysTick_Wait10ms(10);
+    // Traffic_Out(0x40); // West Green
 
   }
 }
@@ -251,14 +247,18 @@ uint32_t input;
 
   while(1){
       // 1) output depending on state using Traffic_Out
+      Traffic_Out(FSM[CS].output);
+      DumpLab42(CS);
       // call your Debug_Dump logging your state number and output
       // 2) wait depending on state
+      SysTick_Wait10ms(FSM[CS].delay);
       // 3) hard code this so input always shows all switches pressed
       // 4) next depends on state and input
+      CS = FSM[CS].Next[7];
   }
 }
 // use main5 to grade
-int main(void){// main5
+int main5(void){// main5
   Clock_Init80MHz(0);
   LaunchPad_Init();
   Grader_Init(); // execute this line before your code
@@ -267,7 +267,7 @@ int main(void){// main5
 // initialize your FSM
   SysTick_Init();   // Initialize SysTick for software waits
   // initialize your FSM
-  Lab4Grader(0); // activate UART, grader and interrupts
+  Lab4Grader(1); // activate UART, grader and interrupts
   while(1){
       // 1) output depending on state using Traffic_Out
       Traffic_Out(FSM[CS].output);
